@@ -6,7 +6,7 @@ public class Cupcake {
     private Topping[] toppings;
     private boolean isCupDuJ;
 
-    // Constructeur pour cup avc 1
+    // Constructeur pour cup avc 1 ou 2 top
     public Cupcake(Base base, Cream cream, Topping... toppings) {
         if (toppings.length > 2) {
             throw new IllegalArgumentException("Un cupcake ne peut pas avoir plus de 2 toppings");
@@ -15,19 +15,17 @@ public class Cupcake {
         this.base = base;
         this.cream = cream;
         this.toppings = toppings;
-        this.isCupcakeOfTheDay = false;
+        this.isCupDuJ = false;
     }
 
-    // Calculer le prix
+    // Calculer prix
     public double calculatePrice() {
         // Prix de base du cupcake (base + crème)
         double price = base.getPrix() + cream.getPrix();
 
-        // Gestion des toppings
-        if (toppings.length == 0) {
-            // Pas de topping, donc pas de réduction
-        } else if (toppings.length == 1) {
-            // Un seul topping, il est gratuit
+        // Gestion prix toppings
+        if (toppings.length == 1) {
+            double prixTopping = toppings[0].getPrix();
         } else if (toppings.length == 2) {
             // Deux toppings, on garde le plus cher et on offre le moins cher
             double prixTopping1 = toppings[0].getPrix();
@@ -37,7 +35,7 @@ public class Cupcake {
         }
 
         // Réduction pour les cupcakes du jour
-        if (isCupcakeOfTheDay) {
+        if (isCupDuJ) {
             price *= 0.6; // 60% du prix normal
         }
 
@@ -45,8 +43,8 @@ public class Cupcake {
     }
 
     // Marquer comme cupcake du jour
-    public void setAsCupcakeOfTheDay() {
-        this.isCupcakeOfTheDay = true;
+    public void setCupDuJ() {
+        this.isCupDuJ = true;
     }
 
     // Getters
@@ -62,11 +60,10 @@ public class Cupcake {
         return toppings;
     }
 
-    public boolean isCupcakeOfTheDay() {
-        return isCupcakeOfTheDay;
+    public boolean isCupDuJ() {
+        return isCupDuJ;
     }
 
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Cupcake [base=").append(base);
@@ -74,7 +71,7 @@ public class Cupcake {
 
         if (toppings.length > 0) {
             sb.append(", toppings=");
-            for (int i = 0; i < toppings.length; i++) {
+            for (int i = 1; i < toppings.length; i++) {
                 sb.append(toppings[i]);
                 if (i < toppings.length - 1) {
                     sb.append(", ");
@@ -83,7 +80,7 @@ public class Cupcake {
         }
 
         sb.append(", prix=").append(String.format("%.2f", calculatePrice())).append("€");
-        if (isCupcakeOfTheDay) {
+        if (isCupDuJ) {
             sb.append(" (Cupcake du jour)");
         }
         sb.append("]");
